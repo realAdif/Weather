@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "PT Sans Narrow", sans-serif;
+    background: rgb(186, 198, 224);
+    background: linear-gradient(
+      48deg,
+      rgba(186, 198, 224, 1) 0%,
+      rgba(213, 189, 187, 1) 100%
+    );
+  }
+}
