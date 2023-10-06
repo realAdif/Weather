@@ -28,7 +28,7 @@ const TodayCards = ({ data }) => {
 
 const TodayHighlight = ({ data }) => {
   return (
-    <div className="text-black flex flex-col gap-2">
+    <div className="flex flex-col gap-2">
       <h1>Today&rsquo;s Highlights</h1>
       {data ? (
         <TodayCards data={data} />

@@ -13,22 +13,28 @@ const fetchData = async (location) => {
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
-    return data;
+    return { data, error: null };
   } catch (error) {
     console.error("Error fetching data:", error);
-    throw error;
+    return { data: null, error: error.message };
   }
 };
 
-const Navbar = ({ updateData }) => {
+const Navbar = ({ updateData, handleFetchError }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleKeyPress = async (event) => {
     if (event.key === "Enter") {
       try {
-        const fetchedData = await fetchData(inputValue);
-        updateData(fetchedData);
+        const { data, error } = await fetchData(inputValue);
+        if (error) {
+          console.error("Error fetching data:", error);
+          handleFetchError(error);
+        } else {
+          updateData(data);
+        }
       } catch (error) {
+        console.error("Error fetching location:", error);
         // Handle the error here if needed
       }
     }
