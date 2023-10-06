@@ -62,36 +62,86 @@ function App() {
   }
 
   return (
-    <main className=" flex items-center flex-col justify-center h-screen my-auto">
-      <div className="flex flex-col gap-2 bg-white bg-opacity-30 p-5 rounded-xl  ">
-        <Navbar updateData={updateData} handleFetchError={handleFetchError} />
-        {loading ? (
-          <div className="animate-pulse flex gap-3 bg-white bg-opacity-30 p-6 rounded-xl">
-            <p>
-              Search for a place then press enter or click the search button
-            </p>
-          </div>
-        ) : (
-          <div className="flex gap-3 bg-white bg-opacity-30 p-6 rounded-xl">
-            <DailyForecast data={data} />
-            <div className="flex flex-col justify-between gap-3">
-              <TodayHighlight data={data.current} />
-              <WeekHighlight data={data.daily} />
+    <main>
+      {/* large screen */}
+      <div className=" hidden lg:flex items-center justify-center h-screen my-auto">
+        <div className="flex flex-col gap-2 bg-white bg-opacity-30 p-2 rounded-xl mx-1">
+          <Navbar updateData={updateData} handleFetchError={handleFetchError} />
+          {error ? (
+            <div className="md:hidden bg-red-200  py-3 px-4  border-l-4 border-red-500 flex items-center gap-3">
+              <BiSolidErrorCircle className="w-[28px] h-auto fill-red-500 rounded" />
+              <div>
+                <p className="font-bold">Error code:404</p>
+                <p className="text-sm">
+                  Can not find the place you are looking for.
+                </p>
+              </div>
             </div>
-          </div>
-        )}
+          ) : (
+            <p className="hidden">Made by Aditya Gaikwad</p>
+          )}
+          {loading ? (
+            <div className="animate-pulse flex gap-3 bg-white bg-opacity-30 p-6 rounded-xl">
+              <p>
+                Search for a place then press enter or click the search button
+              </p>
+            </div>
+          ) : (
+            <div className="lg:flex flex-col lg:flex-row items-center  gap-3 bg-white bg-opacity-30 p-6 rounded-xl w-">
+              <DailyForecast data={data} />
+              <div className="flex flex-col justify-between gap-3 ">
+                <TodayHighlight data={data.current} />
+                <WeekHighlight data={data.daily} />
+              </div>
+            </div>
+          )}
+          {error ? (
+            <div className="hidden lg:flex bg-red-200  py-3 px-4  border-l-4 border-red-500  items-center gap-3">
+              <BiSolidErrorCircle className="w-[28px] h-auto fill-red-500 rounded" />
+              <div>
+                <p className="font-bold">Error code:404</p>
+                <p className="text-sm">
+                  Can not find the place you are looking for.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <p className="hidden">Made by Aditya Gaikwad</p>
+          )}
+        </div>
+      </div>
+      {/* small screen */}
+      <div className="lg:hidden px-6 py-6 h-fit mi-h-screen flex flex-col gap-3 ">
+        {/* navbar */}
+        <Navbar updateData={updateData} handleFetchError={handleFetchError} />
+        {/* error */}
         {error ? (
-          <div className="bg-red-200  py-3 px-4  border-l-4 border-red-500 flex items-center gap-3">
+          <div className=" bg-red-200  py-3 px-4  border-l-4 border-red-500 flex items-center gap-3">
             <BiSolidErrorCircle className="w-[28px] h-auto fill-red-500 rounded" />
             <div>
-              <p className="font-bold">Error code:404</p>
-              <p className="text-sm">
+              <p className="font-bold text-sm">Error code:404</p>
+              <p className="text-xs">
                 Can not find the place you are looking for.
               </p>
             </div>
           </div>
         ) : (
           <p className="hidden">Made by Aditya Gaikwad</p>
+        )}
+        {/* Loading screen*/}
+        {loading ? (
+          <div className="animate-pulse flex gap-3 bg-white bg-opacity-30 p-6 rounded-xl">
+            <p className="text-xs">
+              Search for a place then press enter or click the search button
+            </p>
+          </div>
+        ) : (
+          // weather info
+          <div className="flex flex-col gap-3">
+            <DailyForecast data={data} />
+            <TodayHighlight data={data.current} />
+            <WeekHighlight data={data.daily} />
+          </div>
         )}
       </div>
     </main>

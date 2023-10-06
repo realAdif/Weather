@@ -1,4 +1,6 @@
 import { AiOutlineSearch } from "react-icons/ai";
+import { FaLocationArrow } from "react-icons/fa";
+import { HiLocationMarker } from "react-icons/hi";
 import { useState, useEffect } from "react";
 // https://api.openweathermap.org/data/2.5/onecall?lat="33.8688"&lon="151.2093"&units=metric&appid=0d3ce694eb7aec0ef5afb1493c068bb5
 const fetchData = async (location) => {
@@ -22,6 +24,33 @@ const fetchData = async (location) => {
 
 const Navbar = ({ updateData, handleFetchError }) => {
   const [inputValue, setInputValue] = useState("");
+  const [showSearch, setshowSearch] = useState(false);
+
+  const handleGetLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          // Do something with the latitude and longitude, e.g., send to your API
+          console.log("Latitude:", lat);
+          console.log("Longitude:", lon);
+        },
+        (error) => {
+          console.error("Error getting location:", error.message);
+          // Handle the error, show a message to the user, etc.
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser");
+      // Handle the case where geolocation is not supported
+    }
+  };
+
+  const toggleShowSearch = () => {
+    setshowSearch(!showSearch);
+  };
 
   const handleKeyPress = async (event) => {
     if (event.key === "Enter") {
@@ -32,6 +61,7 @@ const Navbar = ({ updateData, handleFetchError }) => {
           handleFetchError(error);
         } else {
           updateData(data);
+          setshowSearch(false);
         }
       } catch (error) {
         console.error("Error fetching location:", error);
@@ -48,34 +78,55 @@ const Navbar = ({ updateData, handleFetchError }) => {
   };
 
   return (
-    <div className="">
-      <div className="flex justify-between ">
-        <div className="flex items-center bg-[#F9F6EE] bg-opacity-30 text-black w-fit px-3 py-1 rounded-xl">
-          <div className="text-[#516163] ">
-            <input
-              type="text"
-              placeholder="Search for places..."
-              value={inputValue}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyPress}
-              className="outline-none bg-transparent text-black "
-            />
-          </div>
-          <button className="">
-            <AiOutlineSearch size={25} color="#516163" />
-          </button>
+    <>
+      {/* large screen */}
+      <div className="hidden md:flex justify-between items-center ">
+        <div className="flex items-center bg-[#F9F6EE] bg-opacity-30 text-black w-fit p-2 rounded-xl">
+          <AiOutlineSearch size={25} color="#516163" />
+          <input
+            type="text"
+            placeholder="Search for places..."
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyPress}
+            className="outline-none bg-transparent text-black"
+          />
         </div>
-
-        <div className="flex gap-1">
-          <button className="bg-[#F9F6EE] bg-opacity-30 text-black w-10 h-10 rounded-3xl">
-            &#176;C
-          </button>
-          <button className="bg-[#F9F6EE] w-10 h-10 rounded-3xl">
-            &#176;F
-          </button>
+        <div className="bg-[#F9F6EE] bg-opacity-30 w-fit p-2 rounded-full">
+          <HiLocationMarker size={23} color="#516163" />
         </div>
       </div>
-    </div>
+      {/* small screen */}
+      {showSearch ? (
+        <div className="md:hidden bg-[#F9F6EE] bg-opacity-30 flex items-center w-full rounded-lg p-2 gap-2">
+          <AiOutlineSearch size={25} color="#516163" />
+          <input
+            type="text"
+            placeholder="Search for places..."
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyPress}
+            className="outline-none bg-transparent text-black"
+          />
+        </div>
+      ) : (
+        <div className="md:hidden flex justify-between">
+          <div
+            className="bg-[#F9F6EE] bg-opacity-30 w-fit p-2 rounded-full"
+            onClick={toggleShowSearch}
+          >
+            <AiOutlineSearch size={30} color="#516163" />
+          </div>
+
+          <div
+            className="bg-[#F9F6EE] bg-opacity-30 w-fit p-2 rounded-full"
+            onClick={handleGetLocation}
+          >
+            <HiLocationMarker color="#516163" size={30} />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
