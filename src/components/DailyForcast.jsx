@@ -1,6 +1,7 @@
 import { useState } from "react";
 // import cloudy from "../assets/Icons/cloudy.svg";
 import cloudy_day from "../assets/cloudy.svg";
+import WeatherImage from "./WeatherImage";
 
 const WeatherCard = ({ data }) => {
   let run = false;
@@ -19,7 +20,10 @@ const WeatherCard = ({ data }) => {
       ) : (
         <>
           <div className="p-5 text-center flex flex-col items-center">
-            <img src={cloudy_day} alt="" className=" flex max-w-md h-36" />
+            <WeatherImage
+              weatherCode={data.current.weather[0].id}
+              className="flex max-w-md h-36"
+            />
             <p className="text-3xl">{data.current.temp}&#176;</p>
           </div>
           <div className="text-center">

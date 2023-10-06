@@ -50,6 +50,7 @@ function App() {
       .then((newData) => {
         setLoading(false);
         setError(false);
+        console.log(newData);
         return setData(newData);
       })
       .catch((error) => {

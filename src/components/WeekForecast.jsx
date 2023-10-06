@@ -1,29 +1,23 @@
 import { useState } from "react";
 import cloudy from "../assets/cloudy.svg";
+import WeatherImage from "./WeatherImage";
 
 const WeatherCard = ({ dayData }) => {
   const timestampMs = dayData.dt * 1000;
   // Create a new Date object using the timestamp
   const date = new Date(timestampMs);
   // Define an array of day names
-  const dayNames = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  const dayNames = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
   // Get the day of the week and use it to get the corresponding day name
   const dayOfWeek = dayNames[date.getDay()];
   const minTemp = dayData.temp.min;
   const maxTemp = dayData.temp.max;
+  console.log(dayData);
   return (
     <>
       <div className="flex flex-col items-center bg-[#F9F6EE] bg-opacity-30 rounded px-3 py-1">
         <p>{dayOfWeek} </p>
-        <img src={cloudy} alt="" />
+        <WeatherImage weatherCode={dayData.weather[0].id} />
         <p>{`Low:${minTemp.toFixed(0)}° `}</p>
         <p>{`Max:${maxTemp.toFixed(0)}°`}</p>
       </div>
@@ -32,6 +26,7 @@ const WeatherCard = ({ dayData }) => {
 };
 
 const WeekHighlight = ({ data }) => {
+  console.log(data);
   return (
     <div className="flex flex-col gap-2">
       <h1>7 Day Forecast</h1>
