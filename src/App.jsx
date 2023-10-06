@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "./components/Navbar";
 import DailyForecast from "./components/DailyForcast";
+import TodayHighlight from "./components/TodayHighlight";
 
 const fetchData = async (lat, lon, key) => {
   try {
@@ -24,6 +25,7 @@ function App() {
   const APIkey = "0d3ce694eb7aec0ef5afb1493c068bb5";
   const [data, setData] = useState(null);
   const [run, setRun] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // gets the new data and set it in data then sets run to true
   const updateData = (newData) => {
@@ -37,23 +39,31 @@ function App() {
     console.log("Fetching data");
 
     fetchData(data.lat, data.lon, APIkey).then((newData) => {
-      console.log(newData);
+      setLoading(false);
       return setData(newData);
     });
     setRun(false);
   }
 
   return (
-    <main className="border border-black flex items-center justify-center h-screen my-auto">
+    <main className=" flex items-center justify-center h-screen my-auto">
       <div className="flex flex-col gap-2 bg-white bg-opacity-30 p-5 rounded-xl  ">
         <Navbar updateData={updateData} />
-        <div className="flex gap-3 bg-white bg-opacity-30 p-6 rounded-xl">
-          {/* <DailyForecast data={data} /> */}
-          {/* <div className="flex flex-col gap-3">
-            <TodayHighlight data={data} />
-            <WeekHighlight data={data} />
-          </div> */}
-        </div>
+        {loading ? (
+          <div className="animate-pulse flex gap-3 bg-white bg-opacity-30 p-6 rounded-xl">
+            <p>
+              Search for a place then press enter or click the search button
+            </p>
+          </div>
+        ) : (
+          <div className="flex gap-3 bg-white bg-opacity-30 p-6 rounded-xl">
+            <DailyForecast data={data} />
+            <div className="flex flex-col gap-3">
+              <TodayHighlight data={data.current} />
+              {/* <WeekHighlight data={data} /> */}
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );

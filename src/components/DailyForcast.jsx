@@ -1,6 +1,6 @@
 import { useState } from "react";
 // import cloudy from "../assets/Icons/cloudy.svg";
-// import cloudy_day from "../assets/Icons/cloudy-day-1.svg";
+import cloudy_day from "../assets/cloudy.svg";
 
 const WeatherCard = ({ data }) => {
   let run = false;
@@ -13,14 +13,16 @@ const WeatherCard = ({ data }) => {
   return (
     <>
       {!run ? (
-        <p>true</p>
+        <div className=" animate-bounce">
+          <p>Loading..</p>
+        </div>
       ) : (
         <>
           <div className="p-5 text-center flex flex-col items-center">
-            {/* <img src={cloudy_day} alt="" className=" flex max-w-md h-36" /> */}
+            <img src={cloudy_day} alt="" className=" flex max-w-md h-36" />
             <p className="text-3xl">{data.current.temp}&#176;</p>
           </div>
-          <div className="text-center text-lg">
+          <div className="text-center">
             <p>{data.current.weather[0].description}</p>
             <p>{data.timezone}</p>
           </div>
