@@ -111,7 +111,7 @@ function App() {
         </div>
       </div>
       {/* small screen */}
-      <div className="lg:hidden px-6 py-6 h-fit mi-h-screen flex flex-col gap-3 ">
+      <div className="lg:hidden px-6 py-6 h-fit min-h-screen flex flex-col gap-3 ">
         {/* navbar */}
         <Navbar updateData={updateData} handleFetchError={handleFetchError} />
         {/* error */}
@@ -130,7 +130,7 @@ function App() {
         )}
         {/* Loading screen*/}
         {loading ? (
-          <div className="animate-pulse flex gap-3 bg-white bg-opacity-30 p-6 rounded-xl">
+          <div className="animate-pulse flex gap-3 bg-white bg-opacity-30 p-6 rounded-xl h-full">
             <p className="text-xs">
               Search for a place then press enter or click the search button
             </p>
