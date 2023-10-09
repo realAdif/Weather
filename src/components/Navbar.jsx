@@ -22,9 +22,10 @@ const fetchData = async (location) => {
   }
 };
 
-const Navbar = ({ updateData, handleFetchError }) => {
+const Navbar = ({ updateData, handleFetchError, locationData }) => {
   const [inputValue, setInputValue] = useState("");
   const [showSearch, setshowSearch] = useState(false);
+  const [location, setLocation] = useState({ latitude: null, longitude: null });
 
   const handleGetLocation = () => {
     if (navigator.geolocation) {
@@ -34,8 +35,8 @@ const Navbar = ({ updateData, handleFetchError }) => {
           const lon = position.coords.longitude;
 
           // Do something with the latitude and longitude, e.g., send to your API
-          console.log("Latitude:", lat);
-          console.log("Longitude:", lon);
+          setLocation({ latitude: lat, longitude: lon });
+          locationData(location);
         },
         (error) => {
           console.error("Error getting location:", error.message);
@@ -79,7 +80,9 @@ const Navbar = ({ updateData, handleFetchError }) => {
   useEffect(() => {
     setInputValue("");
   }, [updateData]);
-
+  useEffect(() => {
+    console.log(location);
+  }, [location]);
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };

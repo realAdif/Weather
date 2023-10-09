@@ -45,7 +45,6 @@ function App() {
     console.log("no data");
   } else {
     console.log("Fetching data");
-
     fetchData(data.lat, data.lon, APIkey)
       .then((newData) => {
         setLoading(false);
@@ -60,7 +59,25 @@ function App() {
       });
     setRun(false);
   }
-
+  const locationData = (location) => {
+    if (!location) {
+      console.log("No data");
+    } else {
+      console.log("Fetching data");
+      fetchData(location.latitude, location.longitude, APIkey)
+        .then((newData) => {
+          setLoading(false);
+          setError(false);
+          console.log(newData);
+          return setData(newData);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error.message);
+          setLoading(false);
+          setError(true);
+        });
+    }
+  };
   return (
     <main>
       {/* large screen */}
@@ -113,7 +130,11 @@ function App() {
       {/* small screen */}
       <div className="lg:hidden px-6 py-6 h-fit min-h-screen flex flex-col gap-3 ">
         {/* navbar */}
-        <Navbar updateData={updateData} handleFetchError={handleFetchError} />
+        <Navbar
+          updateData={updateData}
+          handleFetchError={handleFetchError}
+          locationData={locationData}
+        />
         {/* error */}
         {error ? (
           <div className=" bg-red-200  py-3 px-4  border-l-4 border-red-500 flex items-center gap-3">

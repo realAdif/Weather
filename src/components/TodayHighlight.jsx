@@ -70,7 +70,7 @@ const TodayHighlight = ({ data }) => {
         {data ? (
           <TodayCards data={data} />
         ) : (
-          <div className=" animate-bounce">
+          <div className=" animate-bounce text-center">
             <p>Loading..</p>
           </div>
         )}
