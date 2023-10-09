@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  html {
+  html,
+  body {
     font-family: "PT Sans Narrow", sans-serif;
     background: rgb(186, 198, 224);
     background: linear-gradient(

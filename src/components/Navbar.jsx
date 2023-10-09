@@ -1,5 +1,5 @@
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaLocationArrow } from "react-icons/fa";
+import { FaXmark } from "react-icons/fa6";
 import { HiLocationMarker } from "react-icons/hi";
 import { useState, useEffect } from "react";
 // https://api.openweathermap.org/data/2.5/onecall?lat="33.8688"&lon="151.2093"&units=metric&appid=0d3ce694eb7aec0ef5afb1493c068bb5
@@ -52,22 +52,29 @@ const Navbar = ({ updateData, handleFetchError }) => {
     setshowSearch(!showSearch);
   };
 
+  const handleDataFetching = async () => {
+    try {
+      const { data, error } = await fetchData(inputValue);
+      if (error) {
+        console.error("Error fetching data:", error);
+        handleFetchError(error);
+      } else {
+        updateData(data);
+        setshowSearch(false);
+      }
+    } catch (error) {
+      console.error("Error fetching location:", error);
+      // Handle the error here if needed
+    }
+  };
   const handleKeyPress = async (event) => {
     if (event.key === "Enter") {
-      try {
-        const { data, error } = await fetchData(inputValue);
-        if (error) {
-          console.error("Error fetching data:", error);
-          handleFetchError(error);
-        } else {
-          updateData(data);
-          setshowSearch(false);
-        }
-      } catch (error) {
-        console.error("Error fetching location:", error);
-        // Handle the error here if needed
-      }
+      await handleDataFetching();
     }
+  };
+
+  const handleButtonClick = async () => {
+    await handleDataFetching();
   };
   useEffect(() => {
     setInputValue("");
@@ -82,7 +89,11 @@ const Navbar = ({ updateData, handleFetchError }) => {
       {/* large screen */}
       <div className="hidden md:flex justify-between items-center ">
         <div className="flex items-center bg-[#F9F6EE] bg-opacity-30 text-black w-fit p-2 rounded-xl">
-          <AiOutlineSearch size={25} color="#516163" />
+          <AiOutlineSearch
+            size={25}
+            color="#516163"
+            onClick={handleButtonClick}
+          />
           <input
             type="text"
             placeholder="Search for places..."
@@ -98,16 +109,21 @@ const Navbar = ({ updateData, handleFetchError }) => {
       </div>
       {/* small screen */}
       {showSearch ? (
-        <div className="md:hidden bg-[#F9F6EE] bg-opacity-30 flex items-center w-full rounded-lg p-2 gap-2">
-          <AiOutlineSearch size={25} color="#516163" />
+        <div className="md:hidden bg-[#F9F6EE] bg-opacity-30 flex justify-between items-center w-full rounded-lg p-2 gap-2">
+          <AiOutlineSearch
+            size={25}
+            color="#516163"
+            onClick={handleButtonClick}
+          />
           <input
             type="text"
             placeholder="Search for places..."
             value={inputValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyPress}
-            className="outline-none bg-transparent text-black"
+            className="outline-none bg-transparent text-black w-full"
           />
+          <FaXmark size={24} color="#516163" onClick={toggleShowSearch} />
         </div>
       ) : (
         <div className="md:hidden flex justify-between">

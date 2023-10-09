@@ -59,7 +59,7 @@ const WeekHighlight = ({ data }) => {
           onClick={toggleForecast}
         >
           <button>
-            {showForecast ? "Hide 3 day Forecast" : "Show 3 day Forecast"}
+            {showForecast ? "Hide 6 day Forecast" : "Show 6 day Forecast"}
           </button>
           {showForecast ? (
             <MdOutlineKeyboardArrowUp size={40} />
@@ -68,8 +68,8 @@ const WeekHighlight = ({ data }) => {
           )}
         </div>
         {showForecast && (
-          <div className="flex justify-between gap-2 w-full">
-            {data.slice(1, 4).map((dayDate, index) => (
+          <div className="flex flex-wrap justify-between gap-3 w-full">
+            {data.slice(1, 7).map((dayDate, index) => (
               <WeatherCard key={index} dayData={dayDate} />
             ))}
           </div>
