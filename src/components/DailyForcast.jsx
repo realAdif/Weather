@@ -1,16 +1,11 @@
 import { useState } from "react";
-// import cloudy from "../assets/Icons/cloudy.svg";
-import cloudy_day from "../assets/cloudy.svg";
 import WeatherImage from "./WeatherImage";
 
 const WeatherCard = ({ data }) => {
   let run = false;
-  if (!data.current) {
-    console.log("no current weather");
-  } else {
+  if (data.current) {
     run = true;
   }
-
   return (
     <>
       {!run ? (

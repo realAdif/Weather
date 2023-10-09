@@ -49,7 +49,6 @@ function App() {
       .then((newData) => {
         setLoading(false);
         setError(false);
-        console.log(newData);
         return setData(newData);
       })
       .catch((error) => {
@@ -61,15 +60,16 @@ function App() {
   }
   const locationData = (location) => {
     if (!location) {
-      console.log("No data");
+      console.log("No location");
     } else {
-      console.log("Fetching data");
+      console.log("Fetching location");
+      setLoading(true);
+
       fetchData(location.latitude, location.longitude, APIkey)
         .then((newData) => {
           setLoading(false);
           setError(false);
-          console.log(newData);
-          return setData(newData);
+          setData(newData);
         })
         .catch((error) => {
           console.error("Error fetching data:", error.message);
@@ -83,7 +83,11 @@ function App() {
       {/* large screen */}
       <div className=" hidden lg:flex items-center justify-center h-screen my-auto">
         <div className="flex flex-col gap-2 bg-white bg-opacity-30 p-2 rounded-xl mx-1">
-          <Navbar updateData={updateData} handleFetchError={handleFetchError} />
+          <Navbar
+            updateData={updateData}
+            handleFetchError={handleFetchError}
+            locationData={locationData}
+          />
           {error ? (
             <div className="md:hidden bg-red-200  py-3 px-4  border-l-4 border-red-500 flex items-center gap-3">
               <BiSolidErrorCircle className="w-[28px] h-auto fill-red-500 rounded" />
@@ -168,5 +172,4 @@ function App() {
     </main>
   );
 }
-
 export default App;

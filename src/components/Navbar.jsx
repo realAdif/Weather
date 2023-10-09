@@ -33,10 +33,11 @@ const Navbar = ({ updateData, handleFetchError, locationData }) => {
         (position) => {
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
+          console.log(typeof locationData);
+          // Use locationData directly
+          locationData({ latitude: lat, longitude: lon });
 
-          // Do something with the latitude and longitude, e.g., send to your API
-          setLocation({ latitude: lat, longitude: lon });
-          locationData(location);
+          console.log(lat, lon);
         },
         (error) => {
           console.error("Error getting location:", error.message);
@@ -80,9 +81,7 @@ const Navbar = ({ updateData, handleFetchError, locationData }) => {
   useEffect(() => {
     setInputValue("");
   }, [updateData]);
-  useEffect(() => {
-    console.log(location);
-  }, [location]);
+  useEffect(() => {}, [location]);
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -106,9 +105,12 @@ const Navbar = ({ updateData, handleFetchError, locationData }) => {
             className="outline-none bg-transparent text-black"
           />
         </div>
-        <div className="bg-[#F9F6EE] bg-opacity-30 w-fit p-2 rounded-full">
+        <button
+          className="bg-[#F9F6EE] bg-opacity-30 w-fit p-2 rounded-full"
+          onClick={handleGetLocation}
+        >
           <HiLocationMarker size={23} color="#516163" />
-        </div>
+        </button>
       </div>
       {/* small screen */}
       {showSearch ? (
@@ -137,12 +139,16 @@ const Navbar = ({ updateData, handleFetchError, locationData }) => {
             <AiOutlineSearch size={30} color="#516163" />
           </div>
 
-          <div
+          <button
             className="bg-[#F9F6EE] bg-opacity-30 w-fit p-2 rounded-full"
             onClick={handleGetLocation}
           >
-            <HiLocationMarker color="#516163" size={30} />
-          </div>
+            <HiLocationMarker
+              color="#516163"
+              size={30}
+              onClick={handleGetLocation}
+            />
+          </button>
         </div>
       )}
     </>
