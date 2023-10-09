@@ -1,6 +1,6 @@
 <h2>About the project</h2>
 
-<p>This repository contains the front-end code for the Fitness Zone portfolio website. The website showcases the services, facilities, and information about the Fitness Zone gym. The website is designed to provide an appealing and user-friendly experience for visitors.</p>
+<p>Welcome to my Weather Dashboard, your go-to destination for up-to-date weather information and a comprehensive 6-day forecast. Whether you're planning your week, checking for upcoming events, or simply staying weather-aware, our dashboard provides a user-friendly interface and accurate weather data to keep you informed.</p>
 
 <h2>Build with</h2>
 
